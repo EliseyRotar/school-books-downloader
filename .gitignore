@@ -1,0 +1,21 @@
+# --- heavy / generated ---
+node_modules/
+.venv/
+__pycache__/
+*.pyc
+
+# --- downloaded books & temp build dirs ---
+temp/
+*.pdf
+pearson_downloads/
+downloads/
+
+# --- screenshots & artifacts ---
+network tab.png
+*.snap
+
+# --- os / editor ---
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

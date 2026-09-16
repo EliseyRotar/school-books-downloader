@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Folio — one shelf for every schoolbook</title>
+<meta name="description" content="Folio is an open, static archive of downloaders for digital schoolbook platforms — HUB Scuola, MyLim, bSmart, Zanichelli, Pearson and more. Free, no accounts, runs in your browser.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,600&family=Instrument+Sans:wght@400;500;600&family=Spline+Sans+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/folio.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='4' fill='%231c1f1d'/%3E%3Ctext x='16' y='22' font-family='Georgia' font-style='italic' font-size='20' fill='%23f6f1e6' text-anchor='middle'%3EF%3C/text%3E%3C/svg%3E">
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masto-inner">
+    <a class="brand" href="index.html" aria-label="Folio home">
+      <span class="brand-word">Folio<em>.</em></span>
+      <span class="brand-sub">Scuola digitale — archivio aperto</span>
+    </a>
+    <nav class="nav" aria-label="Primary">
+      <ul class="nav-links">
+        <li><a href="index.html"><span class="idx">I</span> Index</a></li>
+        <li><a href="platforms.html"><span class="idx">II</span> Platforms</a></li>
+        <li><a href="app/index.html"><span class="idx">III</span> Reader</a></li>
+        <li><a href="cli.html"><span class="idx">IV</span> CLI</a></li>
+        <li><a href="tokens.html"><span class="idx">V</span> Keys</a></li>
+        <li><a href="about.html"><span class="idx">VI</span> Colophon</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main class="page">
+
+  <section class="hero">
+    <p class="eyebrow">Open archive of schoolbook downloaders</p>
+    <h1>One shelf for <span class="rusty">every</span> schoolbook you own.</h1>
+    <p class="lede">Folio gathers the free, open downloaders for the digital textbook platforms you already pay for — HUB Scuola, MyLim, bSmart, Zanichelli, Pearson, Sanoma and more — and runs as much of them as possible right here, in your browser. Nothing is uploaded. Nothing is stored. No account with us, ever.</p>
+    <p class="mt-2">
+      <a class="btn btn-primary" href="app/index.html">Open the Reader →</a>
+      <a class="btn" href="platforms.html">See all platforms</a>
+    </p>
+  </section>
+
+  <section class="stats" aria-label="At a glance">
+    <div class="stat"><div class="n">26</div><div class="l">platforms on the shelf</div></div>
+    <div class="stat"><div class="n">2</div><div class="l">run fully in-browser</div></div>
+    <div class="stat"><div class="n">12</div><div class="l">via tried CLI tools</div></div>
+    <div class="stat"><div class="n">€0</div><div class="l">to host, forever</div></div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <span class="num">I —</span>
+      <h2>In-browser, right now</h2>
+    </div>
+    <p class="muted" style="max-width:70ch">These platforms expose CORS and serve page data your browser can reach directly. Drop in your token (or, for HUB, your email and password — both work), pick your book, download a merged PDF. Everything stays on your machine.</p>
+    <div class="cards mt-2">
+      <a class="card" href="app/hubscuola.html">
+        <span class="tag">HUB Scuola · Mondadori Education</span>
+        <h3>HUB <em>Young / Kids / Scuola</em></h3>
+        <p>Log in with email &amp; password <b>or</b> paste a session token. Browse your library, download any volume as one merged PDF.</p>
+        <span class="go">Open downloader</span>
+      </a>
+      <a class="card" href="app/mylim.html">
+        <span class="tag">MyLim · Loescher</span>
+        <h3>MyLim <em>direct PDF</em></h3>
+        <p>Paste your MyLim JWT. Your books are served as ready-made PDFs — search, filter out demos, one click to download.</p>
+        <span class="go">Open downloader</span>
+      </a>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <span class="num">II —</span>
+      <h2>The rest of the shelf</h2>
+    </div>
+    <p class="muted" style="max-width:70ch">The other platforms keep their APIs locked behind CORS — a browser alone can’t reach them, and no workaround is worth your credentials being mishandled. For each one there is a battle-tested CLI tool, copied from the shelf into this repo, ready to run on your machine.</p>
+    <div class="grid-2 mt-2">
+      <div class="plate" data-tag="Covered by CLI">
+        <h3>Twelve publishers, one folder</h3>
+        <ul>
+          <li><b>bSmart</b> · <b>DiBooK</b> (Laterza) · <b>Educadhoc</b> (Hachette)</li>
+          <li><b>Hoepli</b> demo · <b>Pearson</b> eText · <b>Sanoma</b></li>
+          <li><b>WSET</b> Global · <b>Zanichelli</b> (Kitaboo + Booktab)</li>
+        </ul>
+        <p>Every tool lives in its own folder, MIT-licensed, with the original README intact.</p>
+        <p><a class="btn btn-sm" href="cli.html">CLI instructions →</a></p>
+      </div>
+      <div class="plate" data-tag="Also on the shelf">
+        <h3>Community tools we track</h3>
+        <p><b>pdfgrabber</b> — one Python script covering 13 services &middot; <b>d4sd</b> for the Austrian digi4school/scook &middot; <b>EbookDownloader</b> for Cornelsen, Klett, Westermann &middot; NCERT scrapers for India, McGraw, RedShelf&hellip;</p>
+        <p class="small muted"><span class="badge badge-proxy">proxy-ready</span> A free Cloudflare Worker <em>can</em> make those same APIs reachable from this page. The reader is built so that one URL unlocks it — see the Colophon.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <span class="num">III —</span>
+      <h2>Keep it small, keep it yours</h2>
+    </div>
+    <div class="grid-2">
+      <div>
+        <h3>Nothing to install</h3>
+        <p>HUB and MyLim work right here on this page. No app, no account, no waiting room.</p>
+        <h3 class="mt-2">Nothing to trust</h3>
+        <p>Your token and password never leave your browser. Nobody — including us — can see them.</p>
+        <h3 class="mt-2">Nothing to pay</h3>
+        <p>The site is static, hosted free on GitHub Pages. Bandwidth is free. So are the tools: all MIT.</p>
+      </div>
+      <div>
+        <div class="notice"><b>About the legal fine print</b><br>
+        These tools create copies of books <em>you already have licensed</em>. Back up your own books, keep grades off the internet, and read the licence inside each tool. Folio itself is a directory: each tool keeps its own MIT licence and authors.
+        </div>
+        <p class="mt-2 small muted">“Scarichiamo i libri, non le librerie” — download the books you own, not the libraries.</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="colophon">
+  <div class="page colophon-inner">
+    <div class="mono">Folio<em>.</em> — an open archive of schoolbook downloaders</div>
+    <div class="mono">Static · no JS build · no trackers · MIT</div>
+    <div class="mono"><a href="about.html">Colophon →</a></div>
+  </div>
+</footer>
+
+<script src="assets/js/site.js"></script>
+</body>
+</html>

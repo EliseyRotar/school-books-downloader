@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Colophon — Folio</title>
+<meta name="description" content="The making of Folio: credits, licences, the free hosting architecture, and the road to a proxy-backed reader.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,600&family=Instrument+Sans:wght@400;500;600&family=Spline+Sans+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/folio.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='4' fill='%231c1f1d'/%3E%3Ctext x='16' y='22' font-family='Georgia' font-style='italic' font-size='20' fill='%23f6f1e6' text-anchor='middle'%3EF%3C/text%3E%3C/svg%3E">
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masto-inner">
+    <a class="brand" href="index.html" aria-label="Folio home">
+      <span class="brand-word">Folio<em>.</em></span>
+      <span class="brand-sub">Scuola digitale — archivio aperto</span>
+    </a>
+    <nav class="nav" aria-label="Primary">
+      <ul class="nav-links">
+        <li><a href="index.html"><span class="idx">I</span> Index</a></li>
+        <li><a href="platforms.html"><span class="idx">II</span> Platforms</a></li>
+        <li><a href="app/index.html"><span class="idx">III</span> Reader</a></li>
+        <li><a href="cli.html"><span class="idx">IV</span> CLI</a></li>
+        <li><a href="tokens.html"><span class="idx">V</span> Keys</a></li>
+        <li><a href="about.html"><span class="idx">VI</span> Colophon</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main class="page">
+
+  <section class="hero">
+    <p class="eyebrow">Colophon · the making of</p>
+    <h1>Print, <span class="rusty">not pixel-perfect.</span></h1>
+    <p class="lede">Folio is deliberately static — a typeset page, not an app that phones home. This page explains who wrote what, why the architecture is what it is, and how the whole thing runs on a budget of zero.</p>
+  </section>
+
+  <section class="section">
+    <div class="section-head"><span class="num">I —</span><h2>The zero-euro architecture</h2></div>
+    <div class="grid-2">
+      <div class="plate" data-tag="Now">
+        <h3>Current stack</h3>
+        <ul class="small">
+          <li><b>Hosting:</b> GitHub Pages. Unlimited, free, no card, CDN-served.</li>
+          <li><b>Frontend:</b> vanilla HTML/CSS/JS, no build step, no tracker, no cookie banner.</li>
+          <li><b>Credentials:</b> stay in the visitor’s browser. No backend to leak them.</li>
+          <li><b>Libs:</b> pdf-lib &amp; JSZip &amp; sql.js, each from the official CDN.</li>
+          <li><b>Domain:</b> <code>user.github.io/…</code> — or a free <code>is-a.dev</code> / <code>eu.org</code> subdomain later, via a <code>CNAME</code> file.</li>
+        </ul>
+      </div>
+      <div class="plate" data-tag="Later">
+        <h3>Proxy-backed reader (free)</h3>
+        <p class="small">The platforms we can’t reach in-browser are blocked by <b>CORS</b>. A cheap reverse proxy — <b>Cloudflare Worker</b>, 100k free requests/day, no card — can relay those APIs and push them through the same Reader UI.</p>
+        <p class="small">The Reader already reads a <code>PROXY</code> constant in <span class="mono">app/lib/common.js</span>. Point it at your Worker and the “proxy-ready” badges light up. The Worker code ships in <span class="mono">worker/</span>.</p>
+        <p class="small muted">Why not host the whole thing on a “free” PaaS? Most free tiers sleep, expire (Railway’s $5 credit, Render’s spin-downs) or demand a card. GitHub Pages + Cloudflare free tier do not.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head"><span class="num">II —</span><h2>Credits &amp; licences</h2></div>
+    <p class="small">Each CLI downloader keeps its own MIT licence and authors inside its folder. The names for the shelf:</p>
+    <table class="ledger">
+      <thead><tr><th>Tool</th><th>Author</th><th>Platform</th></tr></thead>
+      <tbody>
+        <tr><td data-th="Tool">bSmart / dibook / educadhoc / hoepli / hub-young / sanoma / WSET / zanichelli downloaders</td><td data-th="Author">Leone25 (Enrico)</td><td data-th="Platform">IT + UK</td></tr>
+        <tr><td data-th="Tool">hubscuola-downloader (Python)</td><td data-th="Author">vvettoretti</td><td data-th="Platform">IT — Mondadori</td></tr>
+        <tr><td data-th="Tool">pearson-downloader (Python)</td><td data-th="Author">vvettoretti</td><td data-th="Platform">IT — Pearson</td></tr>
+        <tr><td data-th="Tool">mylim-downloader (web)</td><td data-th="Author">Leone25 (Enrico)</td><td data-th="Platform">IT — Loescher</td></tr>
+        <tr><td data-th="Tool">pdfgrabber</td><td data-th="Author">djlight</td><td data-th="Platform">13 services, IT + UK</td></tr>
+        <tr><td data-th="Tool">d4sd</td><td data-th="Author">garzj</td><td data-th="Platform">AT — digi4school / scook</td></tr>
+        <tr><td data-th="Tool">EbookDownloader</td><td data-th="Author">RythenGlyth</td><td data-th="Platform">DE — Cornelsen, Klett, Westermann…</td></tr>
+      </tbody>
+    </table>
+    <p class="small muted mt-2">Folio’s glue (design, static pages, in-browser Reader) is MIT, © 2026. The in-browser HUB and MyLim engines are clean-room ports of the MIT CLI behaviour — same endpoints, same spirit.</p>
+  </section>
+
+  <section class="section">
+    <div class="section-head"><span class="num">III —</span><h2>Legal, plainly</h2></div>
+    <p>These tools make copies of books <b>you already own or have licensed</b> onto your own devices. That is lawful personal backup in most jurisdictions. Folio is a directory — it never touches your files, never uploads a page, and never redistributes anything.</p>
+    <p class="small muted">Don’t publish the books you download. Don’t share tokens. Read the licence and disclaimer printed inside each tool folder — they predate Folio and remain yours to follow.</p>
+    <p class="stamp">Backup only · licensed books · no distribution</p>
+  </section>
+
+  <section class="section">
+    <div class="section-head"><span class="num">IV —</span><h2>Roadmap</h2></div>
+    <ul>
+      <li><b>Now:</b> HUB Scuola + MyLim in-browser; 12 platforms as CLI.</li>
+      <li><b>Next:</b> proxy Worker (free, Cloudflare) to unlock the CORS-blocked platforms in-browser.</li>
+      <li><b>Later:</b> import remaining pdfgrabber services one at a time; optional localStorage-only favourites.</li>
+    </ul>
+  </section>
+
+</main>
+
+<footer class="colophon">
+  <div class="page colophon-inner">
+    <div class="mono">Folio<em>.</em> — an open archive of schoolbook downloaders</div>
+    <div class="mono">Static · no JS build · no trackers · MIT</div>
+    <div class="mono"><a href="index.html">Back to index →</a></div>
+  </div>
+</footer>
+
+<script src="assets/js/site.js"></script>
+</body>
+</html>

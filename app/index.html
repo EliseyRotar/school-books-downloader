@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reader — Folio</title>
+<meta name="description" content="Download your digital schoolbooks straight in the browser: HUB Scuola and MyLim. No install, no upload, no accounts.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,600&family=Instrument+Sans:wght@400;500;600&family=Spline+Sans+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/folio.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='4' fill='%231c1f1d'/%3E%3Ctext x='16' y='22' font-family='Georgia' font-style='italic' font-size='20' fill='%23f6f1e6' text-anchor='middle'%3EF%3C/text%3E%3C/svg%3E">
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masto-inner">
+    <a class="brand" href="../index.html" aria-label="Folio home">
+      <span class="brand-word">Folio<em>.</em></span>
+      <span class="brand-sub">Scuola digitale — archivio aperto</span>
+    </a>
+    <nav class="nav" aria-label="Primary">
+      <ul class="nav-links">
+        <li><a href="../index.html"><span class="idx">I</span> Index</a></li>
+        <li><a href="../platforms.html"><span class="idx">II</span> Platforms</a></li>
+        <li><a href="../app/index.html"><span class="idx">III</span> Reader</a></li>
+        <li><a href="../cli.html"><span class="idx">IV</span> CLI</a></li>
+        <li><a href="../tokens.html"><span class="idx">V</span> Keys</a></li>
+        <li><a href="../about.html"><span class="idx">VI</span> Colophon</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main class="page">
+
+  <section class="hero">
+    <p class="eyebrow">Sala di lettura · the reading room</p>
+    <h1>Download, <span class="rusty">in-browser.</span></h1>
+    <p class="lede">Split-screen philosophy: tell us your keys, we fetch your pages, your browser assembles the PDF, and the finished file lands in your own Downloads folder. Nothing of yours ever leaves this tab.</p>
+  </section>
+
+  <section class="section">
+    <div class="cards">
+      <a class="card" href="hubscuola.html">
+        <span class="tag">Mondadori Education</span>
+        <h3>HUB <em>Scuola / Young / Kids</em></h3>
+        <p>Two ways in — email &amp; password, or a pasted session token. Browse your library of volumes and download any of them as a single merged PDF.</p>
+        <span class="go">Open downloader</span>
+      </a>
+      <a class="card" href="mylim.html">
+        <span class="tag">Loescher</span>
+        <h3>MyLim <em>direct PDFs</em></h3>
+        <p>Paste your MyLim JWT. Your books are already perfect PDFs with real tables of contents — search, hide the demos, download.</p>
+        <span class="go">Open downloader</span>
+      </a>
+    </div>
+    <p class="small muted mt-2">Platforms behind CORS are served from the <a href="../cli.html">CLI desk</a>. Once a free Cloudflare Worker proxy is configured, more apps appear here automatically.</p>
+  </section>
+
+</main>
+
+<footer class="colophon">
+  <div class="page colophon-inner">
+    <div class="mono">Folio<em>.</em> — an open archive of schoolbook downloaders</div>
+    <div class="mono">Static · no JS build · no trackers · MIT</div>
+    <div class="mono"><a href="../about.html">Colophon →</a></div>
+  </div>
+</footer>
+
+<script src="../assets/js/site.js"></script>
+</body>
+</html>
