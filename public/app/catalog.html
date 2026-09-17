@@ -29,9 +29,10 @@
     const esc = (s) => String(s == null ? "" : s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
     let doc;
     try {
-      const r = await fetch("/api/cabinet");
+      const r = await fetch("/api/public");
       if (!r.ok) throw new Error("http " + r.status);
-      doc = await r.json();
+      const payload = await r.json();
+      doc = { books: payload.books || [] };
     } catch (_) { doc = {}; }
     const books = (doc && doc.books) || [];
     if (!books.length) { document.getElementById("empty").hidden = false; return; }
