@@ -1,7 +1,7 @@
 -- Folio Cabinet — Cloudflare D1
 --
 -- The whole point of Folio is that what you saved is *yours to see*. There is
--- plaintext Cabinet — plaintext Cabinet — no encryption, no passphrase, no gate — account credentials, tokens and books live here as visible rows, and they are yours to see. Account credentials,
+-- plaintext Cabinet: every credential, every token, every book row is visible here, in the D1 database and on the desk.
 -- session tokens and the bookshelf live here as plain rows, visible in the
 -- app's Cabinet and directly in the D1 database. Nothing is obfuscated.
 --
