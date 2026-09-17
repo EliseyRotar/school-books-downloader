@@ -9,7 +9,6 @@
 
 window.Folio = window.Folio || {};
 const C = (Folio.cabinet = {});
-const F = (Folio = window.Folio);
 
 const LS_PREFIX = "folio.cabinet.";
 let _doc = null; // the opened plaintext cabinet (never plaintext)
