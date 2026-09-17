@@ -22,8 +22,7 @@
 
   // ----- views ------------------------------------------------------
   function enterView(kind) {
-    if (kind === "desk") { CabinetView().style.display = "none"; deskView().style.display = ""; }
-    else { CabinetView().style.display = ""; deskView().style.display = "none"; }
+    deskView().style.display = "";
   }
 
   // ----- profile / sync chip ----------------------------------------
@@ -213,6 +212,14 @@
           d.books.push({ id: b.id, platform: key, accountId: accId, title: b.title, cover: b.cover || "", isbn: b.isbn || "", meta: b.meta || {}, addedAt: Date.now() });
         }
       });
+      // Cover fallback: fill in any book the engine shipped without a cover.
+      for (const b of books) {
+        if (b.cover) continue;
+        const row = C.data().books.find((x) => x.id === b.id && x.platform === key);
+        if (!row) continue;
+        const cover = await C.coverIsbn(b.isbn);
+        if (cover) C.mutate((d) => { const r = d.books.find((x) => x.id === b.id && x.platform === key); if (r) r.cover = cover; });
+      }
       F.ok("Saved to your Cabinet. " + books.length + " book(s) on the shelf.");
       renderAll();
       C.sync("push");
@@ -234,6 +241,8 @@
       try {
         const book = await eng.addBook(C.data().secrets[acc.id], isbn, ctx);
         C.mutate((d) => { d.books.push({ id: book.id, platform: "dibook", accountId: acc.id, title: book.title, cover: "", isbn: book.isbn, meta: { count: book.count }, addedAt: Date.now() }); });
+        const cover = await C.coverIsbn(book.isbn);
+        if (cover) C.mutate((d) => { const r = d.books.find((x) => x.id === book.id && x.platform === "dibook"); if (r) r.cover = cover; });
         F.ok("“" + book.title + "” added to the shelf.");
         renderShelf();
       } catch (e) { F.err(e.message); }
@@ -272,49 +281,7 @@
 
   // ----- Cabinet actions -----------------------------------------------
   // No Cabinet, no lock, no gate — the Cabinet is a plaintext store that is
-  // already open. We keep zero submit handlers, so nothing here blocks boot.
-  // (Cabinet gate fully removed — Cabinet is plaintext, always open, no lock anywhere)
-      try {
-        await V.create(p1, { name: $("profile-name-input").value.trim(), hint: $("hint").value.trim() });
-        F.log("Cabinet created and sealed. Your passphrase is the only key — write it nowhere, lose it and the Cabinet stays locked forever.", "ok");
-        enterView("desk");
-        renderAll();
-        C.sync("push");
-      } catch (e) { F.err(e.message); }
-    });
-
-    $("unlock-go").addEventListener("click", async () => {
-      try {
-        await V.unlock($("pass-unlock").value);
-        F.log("Cabinet opened.", "ok");
-        enterView("desk");
-        renderAll();
-        C.sync("push");
-      } catch (e) { F.err(e.message); }
-    });
-
-    $("restore-go").addEventListener("click", async () => {
-      try {
-        await C.sync("pull");
-        F.log("Cloud copy restored and verified with your passphrase.", "ok");
-        enterView("desk");
-        renderAll();
-      } catch (e) { F.err(e.message); }
-    });
-
-    $("lock-go").addEventListener("click", () => {
-      V.lock();
-      location.hash = "";
-      document.querySelector(".nav-links a[href='index.html']") && null;
-      location.reload();
-    });
-
-    $("Cabinet-reset").addEventListener("click", () => {
-      if (!confirm("Erase the Cabinet on this device (and only this device)? Books and accounts are removed locally.")) return;
-      V.forgetLocal();
-      location.reload();
-    });
-  }
+  // already open. No gate handlers remain: the desk boots straight in.
 
   // ----- boot --------------------------------------------------------
   function renderAll() {
@@ -326,7 +293,6 @@
 
   function init() {
     F.bindLog($("log"));
-    bindCabinet();
     $("connect-btn").addEventListener("click", onConnect);
     engSelect().addEventListener("change", renderCredFields);
     $("cred-fields").addEventListener("change", (e) => { if (e.target.dataset.k === "mode") applyCredVisibility(); });
@@ -335,7 +301,8 @@
 
     // Cabinet is plaintext and always open — no Cabinet, no gate, no lock.
     enterView("desk");
-    C.sync("push");
+    renderAll();
+    C.sync("push").then(refreshSync);
   }
 
   document.addEventListener("DOMContentLoaded", init);
