@@ -39,7 +39,7 @@
     document.getElementById("tbl").hidden = false;
     const rows = document.getElementById("rows");
     for (const b of books) {
-      const author = (b.meta && b.meta.author) || "";
+      const author = b.author || "";
       const pdf = b.id ? ("/api/proxy?platform=" + encodeURIComponent(b.platform || "") + "&id=" + encodeURIComponent(b.id) + "&mode=pdf") : "";
       const tr = document.createElement("tr");
       tr.innerHTML =
