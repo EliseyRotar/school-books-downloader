@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Folio Reader — download your schoolbooks in the browser</title>
+<meta name="description" content="Folio Reader: connect your digital textbook accounts (HUB Scuola, MyLim, DiBooK, bSmart and more), keep them in one plaintext Cabinet and download your books as PDFs — all in the browser.">
+<meta name="keywords" content="download school books, download textbooks, ebook downloader, escolar book download, hub scuola download, mylim download, dibook download, bsmart download, scuola digitale">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Folio Reader — download your schoolbooks in the browser">
+<meta property="og:description" content="Your digital textbooks from every platform, in one plaintext Cabinet, downloaded as PDFs in your browser. Free and open source.">
+<meta property="og:url" content="./index.html">
+<meta name="twitter:card" content="summary">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,600&family=Instrument+Sans:wght@400;500;600&family=Spline+Sans+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/folio.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='4' fill='%231c1f1d'/%3E%3Ctext x='16' y='22' font-family='Georgia' font-style='italic' font-size='20' fill='%23f6f1e6' text-anchor='middle'%3EF%3C/text%3E%3C/svg%3E">
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masto-inner">
+    <a class="brand" href="../index.html" aria-label="Folio home">
+      <span class="brand-word">Folio<em>.</em></span>
+      <span class="brand-sub">the reading room</span>
+    </a>
+    <nav class="nav" aria-label="Primary">
+      <ul class="nav-links">
+        <li><a href="../index.html"><span class="idx">I</span> Index</a></li>
+        <li><a href="../platforms.html"><span class="idx">II</span> Platforms</a></li>
+        <li><a href="index.html"><span class="idx">III</span> Reader</a></li>
+        <li><a href="../tokens.html"><span class="idx">IV</span> Keys</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main class="page console-shell">
+
+  <section class="hero">
+    <p class="eyebrow">Sala di lettura · the reading room</p>
+    <h1>Your books, <span class="rusty">open,</span> ready to carry home.</h1>
+    <p class="lede">Connect the textbook platforms you already own, and Folio keeps them in a plaintext Cabinet on <i>your</i> device — tokens, accounts, the books you’ve collected, all visibly yours to read. Download any volume as a single PDF, reassembled right here in the tab. Request your own copies from the relay when a book is bound to your account.</p></p>
+  </section>
+
+  <!-- ============ The desk ============ -->
+  <section id="desk" style="display:none">
+    <div class="desk-top">
+      <div class="desk-id"><span class="mono" id="profile-name">Your Cabinet</span>
+        <span class="chip" id="sync-chip">…</span>
+        <span class="chip mono" id="sync-live" style="display:none">plaintext</span>
+      </div>
+      
+    </div>
+
+    <div class="grid-2 mt-2" style="align-items:start; gap:2rem">
+      <div>
+        <div class="section-head"><span class="num">A —</span><h2>Accounts</h2></div>
+        <div id="accounts" class="mt-1"></div>
+
+        <div class="plate mt-2" data-tag="Connect">
+          <label for="platform">Platform</label>
+          <div class="mt-1" style="display:flex; gap:.75rem; flex-wrap:wrap; align-items:flex-end">
+            <div class="field" style="flex:1; min-width:16rem">
+              <select id="platform" class="mono"></select>
+            </div>
+            <div>
+              <button type="button" id="connect-btn" class="btn btn-primary">Connect</button>
+            </div>
+          </div>
+          <div id="cred-fields" class="grid-2 mt-2"></div>
+          <div class="log" id="log" aria-live="polite">The desk is open — connect a platform to begin.</div>
+        </div>
+      </div>
+
+      <div>
+        <div class="section-head"><span class="num">B —</span><h2>Shelf</h2></div>
+        <div id="shelf" class="mt-1"></div>
+
+        <div id="isbn-form" class="plate mt-2" data-tag="Add by ISBN" style="display:none">
+          <p class="small muted">DiBooK has no library page — give an ISBN and Folio will find the volume for you.</p>
+          <div class="field">
+            <label for="isbn">ISBN</label>
+            <input id="isbn" type="text" autocomplete="off" spellcheck="false" placeholder="978-88-…" onkeydown="if(event.key==='Enter')document.getElementById('isbn-go').click()">
+          </div>
+          <p><button type="button" id="isbn-go" class="btn">Locate volume</button></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="colophon">
+  <div class="page colophon-inner">
+    <div class="mono">Folio<em>.</em> — your schoolbooks, in one place</div>
+    <div class="mono">Everything runs in this tab · nothing is uploaded · MIT</div>
+    <div class="mono"><a href="../platforms.html">The shelf →</a></div>
+  </div>
+</footer>
+
+<script src="../assets/js/site.js"></script>
+<script src="lib/common.js"></script>
+<script src="lib/msgpack.js"></script>
+<script src="lib/cabinet.js"></script>
+<script src="lib/pdf.js"></script>
+<script src="lib/engines/hubscuola.js"></script>
+<script src="lib/engines/mylim.js"></script>
+<script src="lib/engines/dibook.js"></script>
+<script src="lib/engines/bsmart.js"></script>
+<script src="lib/desktop.js"></script>
+</body>
+</html>

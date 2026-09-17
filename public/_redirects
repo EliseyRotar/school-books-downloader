@@ -1,0 +1,7 @@
+# Folio redirects — Cloudflare Pages
+# Old paths that no longer exist, sent home.
+
+/about.html     / 301
+/cli.html       / 301
+/app/hubscuola.html    /app/ 301
+/app/mylim.html        /app/ 301

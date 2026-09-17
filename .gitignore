@@ -1,18 +1,25 @@
-# --- heavy / generated ---
+# --- cloudflare / wrangler local state ---
+.wrangler/
+.dev.vars
+.env
+dev.db*
+*.sqlite
+
+# --- node (any accidental installs) ---
 node_modules/
+
+# --- python (for any local tooling) ---
 .venv/
 __pycache__/
 *.pyc
 
-# --- downloaded books & temp build dirs ---
-temp/
+# --- downloaded books & temp ---
 *.pdf
-pearson_downloads/
 downloads/
+temp/
 
-# --- screenshots & artifacts ---
-network tab.png
-*.snap
+# --- playwright mcp test artifacts ---
+.playwright-mcp/
 
 # --- os / editor ---
 .DS_Store

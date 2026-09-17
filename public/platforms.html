@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Platforms — Folio · every schoolbook platform we cover</title>
+<meta name="description" content="The full Folio shelf: which digital textbook platforms you can download from in the browser today — HUB Scuola, MyLim, DiBooK, bSmart — and what’s next, across Italy, Europe, India and the US.">
+<meta name="keywords" content="schoolbook platforms, textbook downloader, hub scuola, mylim, dibook, bsmart, zanichelli download, pearson download, sanoma, engaged education">
+<link rel="canonical" href="./platforms.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Platforms — Folio">
+<meta property="og:description" content="Every digital schoolbook platform Folio can download from, and what's coming next.">
+<meta name="twitter:card" content="summary">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,600&family=Instrument+Sans:wght@400;500;600&family=Spline+Sans+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/folio.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='4' fill='%231c1f1d'/%3E%3Ctext x='16' y='22' font-family='Georgia' font-style='italic' font-size='20' fill='%23f6f1e6' text-anchor='middle'%3EF%3C/text%3E%3C/svg%3E">
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masto-inner">
+    <a class="brand" href="index.html" aria-label="Folio home">
+      <span class="brand-word">Folio<em>.</em></span>
+      <span class="brand-sub">schoolbooks, in one place</span>
+    </a>
+    <nav class="nav" aria-label="Primary">
+      <ul class="nav-links">
+        <li><a href="index.html"><span class="idx">I</span> Index</a></li>
+        <li><a href="platforms.html"><span class="idx">II</span> Platforms</a></li>
+        <li><a href="app/index.html"><span class="idx">III</span> Reader</a></li>
+        <li><a href="tokens.html"><span class="idx">IV</span> Keys</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main class="page">
+
+  <section class="hero">
+    <p class="eyebrow">The shelf · sommario</p>
+    <h1>The books this town <span class="rusty">hands out.</span></h1>
+    <p class="lede">Every platform Folio can help you with. The ones marked <b>in Folio</b> connect and download straight from the <a href="app/index.html">Reader</a>; the rest are queued behind the same in-browser pipeline — fetch, unlock, merge — one at a time.</p>
+  </section>
+
+  <section class="section">
+    <div class="pillrow mb-2">
+      <span class="badge badge-web">in Folio</span>
+      <span class="badge badge-proxy">beta — in Folio</span>
+      <span class="badge">on the docket</span>
+      <span class="badge badge-token">token/session auth</span>
+      <span class="badge badge-ok">email/password</span>
+    </div>
+    <div class="platform-catalog"></div>
+  </section>
+
+  <section class="section">
+    <div class="section-head"><span class="num">Nota —</span><h2>Same four building blocks, every time</h2></div>
+    <div class="grid-2">
+      <div class="plate" data-tag="Fetch">
+        <h3>Reaching the pages</h3>
+        <ul class="small" style="line-height:1.7">
+          <li>Platforms that ship CORS headers are fetched directly from the browser.</li>
+          <li>Everything else goes through the Folio relay — a free Cloudflare Function that pipes requests byte-for-byte to the platform you’re already logged into.</li>
+          <li>Either way: the work happens where you are, never on a stranger’s server.</li>
+        </ul>
+      </div>
+      <div class="plate" data-tag="Unlock">
+        <h3>Then four steps, in the tab</h3>
+        <p class="small"><b>Fetch</b> the page files → <b>unlock</b> anything AES/RSA/zip-protected → <b>render</b> SVG or HTML pages where needed → <b>merge</b> everything into one PDF. The Reader already ships all four steps in plain JavaScript.</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="colophon">
+  <div class="page colophon-inner">
+    <div class="mono">Folio<em>.</em> — your schoolbooks, in one place</div>
+    <div class="mono">Everything runs in this tab · nothing is uploaded · MIT</div>
+    <div class="mono"><a href="tokens.html">Keys desk →</a></div>
+  </div>
+</footer>
+
+<script src="assets/js/site.js"></script>
+<script src="assets/js/platforms.js"></script>
+</body>
+</html>

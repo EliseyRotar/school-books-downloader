@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://school-books-downloader.pages.dev/sitemap.xml

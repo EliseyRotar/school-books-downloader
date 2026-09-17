@@ -1,117 +1,146 @@
-# Folio.
+# Folio
 
-One shelf for every schoolbook you own. Folio is a static, free (€0) archive
-that gathers the open downloaders for digital textbook platforms — HUB Scuola,
-MyLim, bSmart, Zanichelli, Pearson, Sanoma and more — and runs as much of them
-as possible **directly in the browser**.
+Download the schoolbooks you already own as plain PDFs — in the browser.
+Connect your textbook platforms (HUB Scuola, MyLim, DiBooK, bSmart and
+more), keep every account, token and book in one **plaintext Cabinet on your
+own device**, and rebuild any volume into a single PDF on the spot.
 
-- **No backend.** GitHub Pages hosts the site. Nothing is uploaded, nothing is
-  stored, no account. Your tokens and passwords never leave your browser.
-- **Two in-browser readers** right now: **HUB Scuola / Young / Kids** (email &
-  password *or* session token) and **MyLim** (JWT → direct PDF).
-- **A dozen CLI tools** in their own folders, MIT-licensed, original READMEs
-  intact — install with `npm i` / `pip install` and run.
-- **No trackers, no build step, no cookie banner.** Vanilla HTML/CSS/JS.
+No app to install. No account with us. Nothing you type is uploaded —
+the only network traffic goes to the platform you're already logged into.
 
-## Structure
+## What you get
+
+| Platform | Auth | Status |
+| --- | --- | --- |
+| HUB Scuola / Young / Kids — Mondadori | email+password **or** token | ready · in-browser |
+| MyLim — Loescher | JWT | ready · in-browser |
+| DiBooK — Laterza | JWT (+ ISBN) | ready · in-browser |
+| bSmart — EdAtlas / Deascuola / DigiBook24 | session cookie | beta · shelf syncs, download tuning |
+| Zanichelli, Pearson, Sanoma, Educadhoc, WSET, Hoepli, Scuolabook, MEE2, Oxford, digi4school, German shelves, NCERT, McGraw-Hill, RedShelf | — | on the docket |
+
+Every platform is built from the same four in-browser steps — *fetch the
+pages, unlock, render, merge* — so the docket shrinks one backend at a
+time, in the same reader.
+
+## How the Cabinet works
+
+- You pick one **passphrase**. It never leaves the tab.
+- The browser derives a key (PBKDF2-SHA256 → AES-GCM) and seals your
+  accounts, tokens, credentials and book list into a single blob.
+- The blob lives in your browser's storage and can be backed up to a
+  Cloudflare D1 database. Without your passphrase that blob is
+  unreadable — by us or anyone.
+- Forget the passphrase and the Cabinet stays closed. That's the point.
+  There is no back door.
+
+## How the relay works
+
+Browsers can only call APIs that send CORS headers. Many textbook
+backends don't. The repo ships a small Cloudflare Pages Function
+(`functions/api/proxy.js`) that pipes requests byte-for-byte to a
+curated allowlist of schoolbook hosts. It logs nothing, stores nothing,
+and rejects anything outside the list.
+
+## Repository layout
 
 ```
-.
-├── index.html            home
-├── platforms.html        catalogue of every platform & method
-├── cli.html              per-tool install/run instructions
-├── tokens.html           where each platform hides its token
-├── about.html            architecture, credits, roadmap
-├── assets/
-│   ├── css/folio.css     design system (paper & ink)
-│   ├── js/               site.js, platforms.js, app/{mylim,hubscuola}.js
-│   └── ...               (mylim-downloader's own assets)
-├── app/                  in-browser Reader
-│   ├── index.html
-│   ├── mylim.html        MyLim → direct PDF
-│   ├── hubscuola.html    HUB Scuola/Young/Kids → merged PDF
-│   └── lib/common.js     shared helpers (PROXY switch lives here)
-├── worker/               optional free Cloudflare Worker proxy (see below)
-└── <platform>-downloader/ each CLI tool, intact
+public/                 static site (Pages root)
+  app/                  the Reader (Cabinet + shelf UI)
+    lib/
+      common.js         fetch/download helpers + the relay client
+      Cabinet.js          plaintext Cabinet + D1 sync
+      msgpack.js        minimal msgpack reader (used by bSmart pages)
+      pdf.js            in-browser PDF assembly
+      engines/          one file per platform downloader
+  assets/               css + catalog data
+  _headers  _redirects  robots.txt  sitemap.xml  404.html
+functions/              Cloudflare Pages Functions
+  api/proxy.js          textbook relay (allowlist only)
+  api/Cabinet.js          plaintext Cabinet sync (D1)
+wrangler.toml           Pages + D1 config
+schema.sql              the single D1 table
 ```
 
-## In-browser readers
+The whole static side is dependency-free, build-free HTML/CSS/JS.
+The only CDNs pulled at runtime are sql.js, JSZip and pdf-lib.
 
-### HUB Scuola / Young / Kids
-Two ways in — email & password (Mondadori JSONP login) **or** a pasted
-`Token-Session` header. Browses your library, then downloads each volume as a
-single merged PDF using `publication.db`'s chapter index (sql.js) and
-per-chapter zips (JSZip), merged with pdf-lib.
+## Run it locally
 
-### MyLim
-Paste your JWT (Local Storage → `mylim.loescher.it` → `token`). Books come as
-finished PDFs with tables of contents; search, hide demos, download.
+Static-only preview (Reader works; relay-dependent engines report the
+relay is missing):
 
-## CLI tools on the shelf
+```sh
+python3 -m http.server 8000
+# → http://localhost:8000
+```
 
-All MIT. Read each folder's own README.
+Full preview with Functions + local D1 (mirrors production):
 
-| Folder | Platform | Auth |
-|---|---|---|
-| `bSmart-downloader` | bSmart + DigiBook24 | session cookie |
-| `dibook-downloader` | DiBooK (Laterza) | JWT |
-| `educadhoc-downloader` | Educadhoc (Hachette) | email/password |
-| `hoepli-demo-downloader` | Hoepli public demos | none |
-| `hub-young-downloader-main` | HUB Young/Kids | token |
-| `hubscuola-downloader` | HUB Scuola (Python) | email/password |
-| `mylim-downloader` | MyLim (web) | token |
-| `pearson-downloader` | Pearson eText (Python) | email/password |
-| `sanoma-downloader` | Sanoma / My Digital Book | email/password |
-| `WSETGlobal-downloader` | WSET Global (Kitaboo) | email/password |
-| `zanichelli-downloader` | Zanichelli (Kitaboo + BookTab) | email/password |
-
-Community tools tracked (not vendored): **pdfgrabber** (13 services in one
-Python CLI), **d4sd** (digi4school / scook), **EbookDownloader** (Cornelsen,
-Klett, Westermann…), NCERT scrapers, McGraw-Hill, RedShelf.
-
-## Why some platforms are CLI-only
-
-GitHub Pages is static, so the browser readers only work where the platform
-allows API access from any origin (CORS). MyLim and HUB expose CORS headers;
-bSmart, Pearson, DiBooK, Educadhoc, WSET do not. Their downloaders therefore
-run on your machine — one command, same result.
-
-### Optionally unlock them in-browser — a free proxy
-The Reader reads `PROXY` in `app/lib/common.js`. Drop in a free **Cloudflare
-Worker** (100k requests/day, no card) to relay those APIs and the same UI can
-reach them. A minimal, protocol-echoing proxy ships in [`worker/proxy.js`](worker/proxy.js):
-
-```bash
-cd worker
+```sh
 npm i -g wrangler
-wrangler login
-wrangler deploy
+npx wrangler pages dev public
+# → http://localhost:8788
 ```
 
-Then set `PROXY = "https://<your-worker>.workers.dev"` in `app/lib/common.js`.
-The proxy never stores credentials — it only relays requests from your browser.
+## Deploy (free, ~5 minutes)
 
-## Free hosting, all of it
+1. **Create the D1 database**
 
-- **Frontend:** GitHub Pages (`user.github.io/…`)
-- **Domain:** free `is-a.dev` / `eu.org` subdomain via a `CNAME` file (no free `.com` exists)
-- **Backend (optional):** Cloudflare Workers free tier
-- **Database (if ever needed):** Cloudflare D1 (5 GB free) or Supabase
+   ```sh
+   npx wrangler d1 create folio
+   # copy the database_id it prints
+   ```
 
-## Deploy
+   Paste it into `wrangler.toml` under `d1_databases → database_id`.
 
-1. Push this repository to GitHub.
-2. *Settings → Pages → Deploy from a branch → `main` / `/ (root)` → Save.*
-3. Done. Optionally add a `CNAME` with a free subdomain.
+2. **Create the schema**
 
-## Legal
+   ```sh
+   npx wrangler d1 execute folio --file=schema.sql
+   ```
 
-These tools copy books **you already have licensed** onto your own devices for
-personal backup. Folio is a directory — it never uploads a page or redistributes
-anything. Don't republish downloaded books; read each tool's own licence and
-disclaimer.
+3. **Deploy the site + functions**
 
-## Licence
+   ```sh
+   npx wrangler login
+   npx wrangler pages deploy public
+   # prints → https://<name>.pages.dev
+   ```
 
-The Folio glue (design, pages, in-browser Reader) is MIT. Each vendored CLI
-tool carries its own MIT licence and authors in its folder.
+4. **Wire the D1 binding** (deploys don't read `database_id` the same way
+   Workers do — bind once in the dashboard):
+
+   Dashboard → your Pages project → **Settings → Functions →
+   D1 database bindings** → bind variable name `DB` to the `folio`
+   database, then re-deploy. Or set it via
+   `wrangler pages secret`/config if you prefer wrangler-managed config.
+
+That's it. The Reader auto-detects the relay on load.
+
+If you point a custom domain at the Pages project, update
+`sitemap.xml` (and optionally `robots.txt`, `/_redirects`) to match.
+
+## Adding a platform
+
+Create `public/app/lib/engines/<id>.js` implementing:
+
+```js
+Folio.engines[ID] = {
+  meta:   { label, publisher, country, status, connectable, needsRelay },
+  creds:  [ { k, type, label, hint, options, depends } ],
+  async connect(secrets, ctx)  // → { account, secrets, books: [] }
+  async download(book, secrets, ctx, onProgress) // → { filename, bytes|blob }
+  // optional: addBook(secrets, isbn, ctx)
+};
+```
+
+Add it to the catalog in `public/assets/js/platforms.js` and ship.
+Engines that need the relay set `needsRelay: true` and call
+`Folio.api(url, opts, { viaProxy: true })` — nothing else changes.
+
+## License
+
+MIT — see `LICENSE`. Do what you like with the code itself.
+
+*Folio downloads copies of books you already have licensed. It does not
+download other people's libraries.*
