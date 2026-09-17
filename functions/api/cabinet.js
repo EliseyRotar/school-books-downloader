@@ -10,7 +10,7 @@ const MAX_DOC = 2 * 1024 * 1024; // 2 MB of plaintext per device
 
 export async function onRequestGet(context) {
   const db = context.env.DB;
-  if (!db) return json({ ok: false, error: "D1 not bound — Cabinet unavailable" }, 500cin);
+  if (!db) return json({ ok: false, error: "D1 not bound — Cabinet unavailable" }, 500);
 
   const device = (new URL(context.request.url).searchParams.get("device") || "").trim();
   if (!device) return json({ ok: false, error: "missing device id" }, 400);
