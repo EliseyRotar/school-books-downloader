@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Catalogo — libri pubblicati</title>
+<style>
+  :root { color-scheme: light dark; }
+  body { font-family: system-ui, sans-serif; margin: 0 auto; max-width: 900px; padding: 16px; }
+  h1 { font-size: 22px; }
+  table { width: 100%; border-collapse: collapse; margin-top: 12px; }
+  th, td { text-align: left; padding: 8px; border-bottom: 1px solid #ddd; vertical-align: top; }
+  img.cover { width: 48px; height: 64px; object-fit: cover; background: #eee; border-radius: 4px; }
+  a.pdf { color: #06c; }
+  .muted { color: #777; font-size: 12px; }
+  #empty { margin-top: 24px; color: #888; }
+</style>
+</head>
+<body>
+<h1>Catalogo pubblico</h1>
+<p class="muted">Ogni libro sbloccato viene pubblicato qui. Solo metadati e copertina: nessuna credenziale, nessun account.</p>
+<div id="empty" hidden>Nessun libro pubblicato. Aggiungi e sblocca un libro dall'armadietto per vederlo apparire qui.</div>
+<table id="tbl" hidden>
+  <thead><tr><th></th><th>Titolo</th><th>Autore</th><th>ISBN</th><th>Piattaforma</th><th>PDF</th></tr></thead>
+  <tbody id="rows"></tbody>
+</table>
+<script>
+  (async () => {
+    const esc = (s) => String(s == null ? "" : s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+    let doc;
+    try {
+      const r = await fetch("/api/cabinet");
+      if (!r.ok) throw new Error("http " + r.status);
+      doc = await r.json();
+    } catch (_) { doc = {}; }
+    const books = (doc && doc.books) || [];
+    if (!books.length) { document.getElementById("empty").hidden = false; return; }
+    document.getElementById("tbl").hidden = false;
+    const rows = document.getElementById("rows");
+    for (const b of books) {
+      const author = (b.meta && b.meta.author) || "";
+      const pdf = b.id ? ("/api/proxy?platform=" + encodeURIComponent(b.platform || "") + "&id=" + encodeURIComponent(b.id) + "&mode=pdf") : "";
+      const tr = document.createElement("tr");
+      tr.innerHTML =
+        "<td>" + (b.cover ? '<img class="cover" src="' + esc(b.cover) + '" alt="">' : "") + "</td>" +
+        "<td><strong>" + esc(b.title) + "</strong></td>" +
+        "<td>" + esc(author) + "</td>" +
+        "<td class=\"muted\">" + esc(b.isbn || "") + "</td>" +
+        "<td>" + esc(b.platform || "") + "</td>" +
+        "<td>" + (pdf ? '<a class="pdf" href="' + esc(pdf) + '" target="_blank" rel="noopener">PDF</a>' : "") + "</td>";
+      rows.appendChild(tr);
+    }
+  })();
+</script>
+</body>
+</html>
