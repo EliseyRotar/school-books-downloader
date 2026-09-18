@@ -12,7 +12,7 @@ Folio.engines.hubscuola = {
     label: "HUB Scuola / Young / Kids",
     publisher: "Mondadori Education",
     country: "IT",
-    status: "ready",
+    status: "needs-testing",
     connectable: true,
     needsRelay: false,
     desc: "Two ways in — email & password, or a session token. Your library loads, any volume merges to a single PDF."
