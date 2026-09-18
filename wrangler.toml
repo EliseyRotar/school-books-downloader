@@ -11,6 +11,6 @@ compatibility_flags = ["nodejs_compat"]
 [[d1_databases]]
 binding = "DB"
 database_name = "folio"
-database_id = ""
+database_id = "689a5b45-e3db-4964-9010-92f0b79595d0"
 
 [vars]
