@@ -13,7 +13,7 @@ Folio.engines.dibook = {
     label: "DiBooK",
     publisher: "Laterza",
     country: "IT",
-    status: "ready",
+    status: "needs-testing",
     connectable: true,
     needsRelay: true,
     desc: "Login is a JWT; add each book by ISBN. Every page is unlocked in-browser and merged to a single PDF."
