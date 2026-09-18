@@ -11,7 +11,7 @@ Folio.engines.mylim = {
     label: "MyLim",
     publisher: "Loescher",
     country: "IT",
-    status: "ready",
+    status: "needs-testing",
     connectable: true,
     needsRelay: false,
     desc: "Paste your MyLim JWT. Your books are served as ready-made PDFs with real tables of contents."
